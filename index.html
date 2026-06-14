@@ -44,7 +44,10 @@ body {
 :root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); }
 nav {
   position: fixed; top: 0; width: 100%; z-index: 100;
-  display: flex; justify-content: space-between; align-items: center;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "logo links burger";
+  align-items: center;
   padding: 0 clamp(1.5rem, 5vw, 4rem);
   height: 68px;
   background: oklch(12% 0.008 30 / 0.94);
@@ -54,10 +57,13 @@ nav {
 }
 nav.scrolled { border-bottom-color: oklch(38% 0.06 28); }
 .nav-logo {
+  grid-area: logo;
   font-family: 'Anton', sans-serif; font-size: 1.4rem; letter-spacing: 0.06em;
   color: var(--ember); text-decoration: none;
   transition: opacity 150ms ease;
 }
+.nav-links { grid-area: links; justify-self: end; }
+.nav-burger { grid-area: burger; }
 @media (hover: hover) and (pointer: fine) {
   .nav-logo:hover { opacity: 0.75; }
 }
