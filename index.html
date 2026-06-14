@@ -41,36 +41,58 @@ body {
 .f-label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; }
 
 /* ---- Nav ---- */
+:root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); }
 nav {
   position: fixed; top: 0; width: 100%; z-index: 100;
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex; justify-content: flex-start; align-items: center;
   padding: 0 clamp(1.5rem, 5vw, 4rem);
   height: 68px;
-  background: oklch(12% 0.008 30 / 0.92);
-  backdrop-filter: blur(10px);
+  background: oklch(12% 0.008 30 / 0.94);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--outline);
-  transition: border-color 400ms ease-out, box-shadow 400ms ease-out;
+  transition: border-color 250ms ease, opacity 250ms ease;
 }
-nav.scrolled {
-  border-bottom-color: oklch(38% 0.06 28);
-  box-shadow: 0 0 40px oklch(60% 0.20 34 / 0.12);
+nav.scrolled { border-bottom-color: oklch(38% 0.06 28); }
+.nav-logo {
+  font-family: 'Anton', sans-serif; font-size: 1.4rem; letter-spacing: 0.06em;
+  color: var(--ember); text-decoration: none;
+  transition: opacity 150ms ease;
 }
-.nav-logo { font-family: 'Anton', sans-serif; font-size: 1.4rem; letter-spacing: 0.06em; color: var(--ember); text-decoration: none; }
-.nav-links {
-  display: flex; gap: 2.5rem; align-items: center;
+@media (hover: hover) and (pointer: fine) {
+  .nav-logo:hover { opacity: 0.75; }
 }
-.nav-links a {
-  font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--smoke); text-decoration: none; transition: color 200ms;
+.nav-links { display: flex; gap: 1.25rem; align-items: center; margin-left: auto; }
+.nav-links a:not(.nav-cta) {
+  position: relative;
+  font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--smoke); text-decoration: none;
+  padding-bottom: 3px;
+  transition: color 180ms ease;
 }
-.nav-links a:hover { color: var(--ash); }
+.nav-links a:not(.nav-cta)::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 1px; background: var(--ember);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-links a:not(.nav-cta):hover { color: var(--ash-bright); }
+  .nav-links a:not(.nav-cta):hover::after { transform: scaleX(1); }
+}
 .nav-cta {
-  font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
-  background: var(--ember); color: oklch(10% 0.008 30); padding: 0.625rem 1.5rem;
+  font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  background: var(--ember); color: oklch(10% 0.008 30);
+  padding: 0.6rem 1.5rem;
   text-decoration: none; cursor: pointer; border: none;
-  transition: box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 160ms ease, transform 160ms var(--ease-out);
 }
-.nav-cta:hover { box-shadow: 0 0 28px oklch(60% 0.20 34 / 0.55); }
+@media (hover: hover) and (pointer: fine) {
+  .nav-cta:hover { opacity: 0.88; }
+}
+.nav-cta:active { transform: scale(0.97); }
 .nav-burger {
   display: none; flex-direction: column; justify-content: center; gap: 5px;
   background: none; border: none; cursor: pointer; padding: 0.5rem; width: 40px; height: 40px;
@@ -199,10 +221,27 @@ nav.scrolled {
 .service-visual:hover img { transform: scale(1.04); }
 
 /* ---- USP ---- */
-.usp-intro { margin-bottom: 4rem; }
-.usp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem 7rem; }
-.usp-title { color: var(--ash-bright); margin-bottom: 0.875rem; }
-.usp-body { color: var(--smoke); font-size: 0.9375rem; line-height: 1.75; max-width: 42ch; }
+.usp-heading {
+  font-family: 'Anton', sans-serif; text-transform: uppercase;
+  font-size: clamp(3rem, 7vw, 6rem); line-height: 0.9; letter-spacing: 0.01em;
+  color: var(--ash-bright); margin-bottom: 4rem;
+}
+.usp-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+}
+.usp-item {
+  padding: 2rem 2.5rem 0 0;
+  border-top: 1px solid var(--ember);
+}
+.usp-item:not(:last-child) { border-right: 1px solid var(--outline); padding-right: 2.5rem; }
+.usp-item + .usp-item { padding-left: 2.5rem; padding-right: 2.5rem; }
+.usp-item:last-child { padding-right: 0; }
+.usp-num {
+  font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: 0.12em;
+  color: var(--ember); margin-bottom: 1.5rem; display: block;
+}
+.usp-title { color: var(--ash-bright); margin-bottom: 0.75rem; font-size: clamp(1.1rem, 1.5vw, 1.35rem); }
+.usp-body { color: var(--smoke); font-size: 0.9rem; line-height: 1.75; }
 
 /* ---- Gallery ---- */
 .gallery-grid {
@@ -275,7 +314,12 @@ footer {
   .service-item.flip .service-text,
   .service-item.flip .service-visual { order: unset; }
   .service-num { font-size: 5rem; }
-  .usp-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .usp-grid { grid-template-columns: 1fr 1fr; }
+  .usp-item { padding: 1.5rem 1.5rem 0 0; }
+  .usp-item + .usp-item { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .usp-item:nth-child(odd) { border-right: 1px solid var(--outline); }
+  .usp-item:nth-child(even) { border-right: none; padding-right: 0; }
+  .usp-item:nth-child(3), .usp-item:nth-child(4) { margin-top: 2rem; }
   .form-grid { grid-template-columns: 1fr; }
   .field.full { grid-column: span 1; }
   .gallery-grid { grid-template-columns: 1fr 1fr; gap: 3px; }
@@ -289,13 +333,13 @@ footer {
 <!-- Nav -->
 <nav id="nav">
   <a href="#" class="nav-logo">SOUTHSMOKE</a>
-  <div class="nav-links" id="navLinks" style="display:none">
+  <div class="nav-links" id="navLinks">
     <a href="#services">Szolgáltatások</a>
     <a href="#gallery">Galéria</a>
     <a href="#contact">Kapcsolat</a>
     <a href="#contact" class="nav-cta">Ajánlatot kérek</a>
   </div>
-  <button class="nav-burger" id="burger" style="display:flex" aria-label="Menü megnyitása" aria-expanded="false">
+  <button class="nav-burger" id="burger" aria-label="Menü megnyitása" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -354,25 +398,27 @@ footer {
 </section>
 
 <!-- USP -->
-<section class="section section-alt">
-  <div class="usp-intro">
-    <p class="f-label" style="color: var(--ember);">Miért mi</p>
-  </div>
+<section class="section section-alt" id="why">
+  <h2 class="usp-heading reveal">Miért<br>minket?</h2>
   <div class="usp-grid">
-    <div class="reveal">
-      <h3 class="f-display f-sm usp-title">Valódi füst, valódi idő</h3>
+    <div class="usp-item reveal">
+      <span class="usp-num">01</span>
+      <h3 class="f-display usp-title">Valódi füst, valódi idő</h3>
       <p class="usp-body">Minimum 12 óra. Nincs gáz, nincs rövidítés. Csak fa, tűz és türelem. Ha gyorsabban kellene, mást keresel.</p>
     </div>
-    <div class="reveal reveal-d1">
-      <h3 class="f-display f-sm usp-title">Kimegyünk hozzád</h3>
+    <div class="usp-item reveal reveal-d1">
+      <span class="usp-num">02</span>
+      <h3 class="f-display usp-title">Kimegyünk hozzád</h3>
       <p class="usp-body">Nem kell helyszínt keresned. A felszerelés a miénk, a logisztika a miénk. Te csak szólj, mi csináljuk a többit.</p>
     </div>
-    <div class="reveal">
-      <h3 class="f-display f-sm usp-title">Nincs kompromisszum</h3>
+    <div class="usp-item reveal reveal-d2">
+      <span class="usp-num">03</span>
+      <h3 class="f-display usp-title">Nincs kompromisszum</h3>
       <p class="usp-body">Csak a legjobb hús, csak a legjobb fűszerek. Ha nem tudjuk azt adni amit ígértünk, inkább nem vállaljuk.</p>
     </div>
-    <div class="reveal reveal-d1">
-      <h3 class="f-display f-sm usp-title">Nem catering. Élmény.</h3>
+    <div class="usp-item reveal reveal-d2">
+      <span class="usp-num">04</span>
+      <h3 class="f-display usp-title">Nem catering. Élmény.</h3>
       <p class="usp-body">Az emberek nem azt mondják el, hogy mit ettek. Azt mondják el, hogyan érezték magukat. Mi arra játszunk.</p>
     </div>
   </div>
@@ -516,51 +562,17 @@ window.addEventListener('scroll', () => {
 // Hamburger
 const burger = document.getElementById('burger');
 const navLinks = document.getElementById('navLinks');
-const BREAKPOINT = 861;
-
-function applyNavMode() {
-  const mobile = window.innerWidth < BREAKPOINT;
-  burger.style.display = mobile ? 'flex' : 'none';
-  if (!mobile) {
-    navLinks.style.display = 'flex';
-    navLinks.classList.remove('open');
-    burger.classList.remove('open');
-    burger.setAttribute('aria-expanded', false);
-  } else if (!navLinks.classList.contains('open')) {
-    navLinks.style.display = 'none';
-  }
-  const cs = window.getComputedStyle(navLinks);
-  console.log('NAV: mobile=' + mobile + ' | burger.style=' + burger.style.display + ' | links.style=' + navLinks.style.display + ' | links.computed=' + cs.display);
-}
-
-applyNavMode();
-window.addEventListener('resize', applyNavMode);
 
 burger.addEventListener('click', () => {
   const open = navLinks.classList.toggle('open');
   burger.classList.toggle('open', open);
   burger.setAttribute('aria-expanded', open);
-  navLinks.style.display = open ? 'flex' : 'none';
-  if (open) {
-    navLinks.style.flexDirection = 'column';
-    navLinks.style.position = 'absolute';
-    navLinks.style.top = '68px';
-    navLinks.style.left = '0';
-    navLinks.style.right = '0';
-    navLinks.style.background = 'oklch(12% 0.008 30 / 0.97)';
-    navLinks.style.borderBottom = '1px solid oklch(28% 0.012 29)';
-    navLinks.style.padding = '2rem';
-    navLinks.style.gap = '1.5rem';
-    navLinks.style.alignItems = 'flex-start';
-    navLinks.style.zIndex = '99';
-  }
 });
 navLinks.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => {
     navLinks.classList.remove('open');
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', false);
-    if (window.innerWidth < BREAKPOINT) navLinks.style.display = 'none';
   });
 });
 
