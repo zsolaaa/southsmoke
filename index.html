@@ -44,30 +44,25 @@ body {
 :root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); }
 nav {
   position: fixed; top: 0; width: 100%; z-index: 100;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas: "logo links burger";
-  align-items: center;
+  display: flex; align-items: center;
   padding: 0 clamp(1.5rem, 5vw, 4rem);
   height: 68px;
   background: oklch(12% 0.008 30 / 0.94);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--outline);
-  transition: border-color 250ms ease, opacity 250ms ease;
+  transition: border-color 250ms ease;
 }
 nav.scrolled { border-bottom-color: oklch(38% 0.06 28); }
 .nav-logo {
-  grid-area: logo;
   font-family: 'Anton', sans-serif; font-size: 1.4rem; letter-spacing: 0.06em;
   color: var(--ember); text-decoration: none;
+  white-space: nowrap; flex-shrink: 0;
   transition: opacity 150ms ease;
 }
-.nav-links { grid-area: links; justify-self: end; }
-.nav-burger { grid-area: burger; }
 @media (hover: hover) and (pointer: fine) {
   .nav-logo:hover { opacity: 0.75; }
 }
-.nav-links { display: flex; gap: 1.25rem; align-items: center; }
+.nav-links { display: flex; gap: 1.25rem; align-items: center; margin-left: auto; }
 .nav-links a:not(.nav-cta) {
   position: relative;
   font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
